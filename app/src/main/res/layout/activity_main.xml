@@ -44,8 +44,34 @@
             app:icon="@drawable/ic_baseline_clear_24"
             android:gravity="center"
             app:layout_constraintBaseline_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
-        
+            app:layout_constraintRight_toRightOf="parent"
+            android:id="@+id/buttonClose"/>
+
+        <androidx.constraintlayout.widget.Barrier
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:barrierDirection="start"
+            app:constraint_referenced_ids="filmCim"
+            />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/filmCimLabel"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="Cím"
+            style="@style/BooringTextView"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/filmCim"
+            android:layout_marginLeft="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:text="KK"
+            app:layout_constraintTop_toTopOf="@id/filmCimLabel"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
