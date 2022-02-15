@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:orientation="vertical"
-    android:gravity="center"
-    android:weightSum="100">
+    android:gravity="center">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -34,25 +33,24 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="30"
+        android:layout_height="110dp"
         android:id="@+id/layout_Viewer">
 
         <com.google.android.material.button.MaterialButton
-            android:layout_width="44dp"
+            android:layout_width="34dp"
             android:layout_height="44dp"
             app:icon="@drawable/ic_baseline_clear_24"
             android:gravity="center"
+            android:padding="5dp"
             app:layout_constraintBaseline_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:id="@+id/buttonClose"/>
 
         <androidx.constraintlayout.widget.Barrier
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:barrierDirection="start"
-            app:constraint_referenced_ids="filmCim"
-            />
+            app:constraint_referenced_ids="filmCim, filmKategoria, filmHossz, filmErtekeles" />
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,17 +58,74 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:text="Cím"
+            android:textSize="20sp"
             style="@style/BooringTextView"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/filmCim"
-            android:layout_marginLeft="10dp"
+            android:textSize="20sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:text="KK"
             app:layout_constraintTop_toTopOf="@id/filmCimLabel"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/filmKategoriaLabel"
+            app:layout_constraintTop_toBottomOf="@id/filmCimLabel"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="Kategória"
+            android:textSize="20sp"
+            style="@style/BooringTextView"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/filmKategoria"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/filmKategoriaLabel"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/filmHosszLabel"
+            app:layout_constraintTop_toBottomOf="@id/filmKategoriaLabel"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="Hossz"
+            android:textSize="20sp"
+            style="@style/BooringTextView"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/filmHossz"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/filmHosszLabel"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/filmErtekelesLabel"
+            app:layout_constraintTop_toBottomOf="@id/filmHosszLabel"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="Értékelés"
+            android:textSize="20sp"
+            style="@style/BooringTextView"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/filmErtekeles"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/filmErtekelesLabel"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
