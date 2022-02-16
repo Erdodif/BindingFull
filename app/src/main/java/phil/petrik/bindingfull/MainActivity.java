@@ -4,11 +4,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import java.io.IOException;
 
+import phil.petrik.bindingfull.data.Film;
+import phil.petrik.bindingfull.databinding.ActivityMainBinding;
+
+public class MainActivity extends AppCompatActivity {
+    public Film film;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        film = new Film(null,"Menő cím","Kategória123",100,1);
+        try {
+            binding.setFilm(Film.getFilm(1));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

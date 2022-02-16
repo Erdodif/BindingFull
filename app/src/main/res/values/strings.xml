@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BindingFull</string>
+    <string name="database_link">http:\\10.147.20.1\</string>
 </resources>
