@@ -1,6 +1,7 @@
 package phil.petrik.bindingfull.data;
 
 import android.content.res.Resources;
+import android.util.Log;
 import android.util.Pair;
 
 import java.io.*;
@@ -12,7 +13,7 @@ import phil.petrik.bindingfull.R;
 public class WebDoctor {
     public static HttpURLConnection createConnection(String urlExtension, String method) throws IOException {
         //String baseUrl = Resources.getSystem().getString(R.string.database_link);
-        HttpURLConnection conn = (HttpURLConnection) (new URL(/*baseUrl*/  "http:\\\\10.147.20.1\\" + "/api/" + urlExtension)).openConnection();
+        HttpURLConnection conn = (HttpURLConnection) (new URL(/*baseUrl*/  "https://retoolapi.dev/Q304E6" + urlExtension)).openConnection();
         conn.setRequestMethod(method);
         conn.setRequestProperty("Accept", "application/json");
         return conn;
@@ -60,5 +61,15 @@ public class WebDoctor {
         return new Pair<>(conn.getResponseCode(), getResponseContent(conn));
     }
 
+    public static String getContentString(HttpURLConnection conn) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(getResponseContent(conn)));
+        StringBuilder boby = new StringBuilder();
+        String line = bufferedReader.readLine();
+        while (line != null){
+            boby.append(line);
+            line = bufferedReader.readLine();
+        }
+        return boby.toString();
+    }
 
 }
