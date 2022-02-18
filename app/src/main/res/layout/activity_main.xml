@@ -17,12 +17,14 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="64">
+            android:layout_weight="64"
+            android:layout_marginHorizontal="10dp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/layout_Films"/>
+                android:id="@+id/layout_Films"
+                android:orientation="vertical"/>
 
         </ScrollView>
 
@@ -37,11 +39,12 @@
             android:backgroundTint="#2DBABA"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_Viewer"
+            android:id="@+id/layout_Film_Inspector"
             android:layout_width="match_parent"
             android:minHeight="110dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp">
+            android:layout_marginHorizontal="10dp"
+            android:visibility="gone">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonClose"
@@ -76,7 +79,7 @@
                 style="@style/BooringTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cím"
+                android:text="@string/cim"
                 android:textSize="20sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -97,7 +100,7 @@
                 style="@style/BooringTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Kategória"
+                android:text="@string/kategoria"
                 android:textSize="20sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/filmCimLabel" />
@@ -118,7 +121,7 @@
                 style="@style/BooringTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hossz"
+                android:text="@string/hossz"
                 android:textSize="20sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/filmKategoriaLabel" />
@@ -139,7 +142,7 @@
                 style="@style/BooringTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Értékelés"
+                android:text="@string/ertekeles"
                 android:textSize="20sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/filmHosszLabel" />
@@ -157,6 +160,85 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_Film_Editor"
+            android:layout_width="match_parent"
+            android:minHeight="220dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:visibility="gone">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonCloseEditor"
+                android:layout_width="34dp"
+                android:layout_height="44dp"
+                android:gravity="center"
+                android:padding="5dp"
+                app:icon="@drawable/ic_baseline_clear_24"
+                app:layout_constraintBaseline_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonSend"
+                android:layout_width="34dp"
+                android:layout_height="44dp"
+                android:gravity="center"
+                android:padding="5dp"
+                app:icon="@drawable/ic_baseline_arrow_forward_24"
+                app:layout_constraintBaseline_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_marginTop="5dp"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textInput_Cim"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:hint="@string/cim">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textInput_Kategoria"
+                app:layout_constraintTop_toBottomOf="@id/textInput_Cim"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:hint="@string/kategoria">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textInput_Hossz"
+            app:layout_constraintTop_toBottomOf="@id/textInput_Kategoria"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:hint="@string/hossz">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textInput_Ertekeles"
+            app:layout_constraintTop_toBottomOf="@id/textInput_Hossz"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:hint="@string/ertekeles">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </layout>

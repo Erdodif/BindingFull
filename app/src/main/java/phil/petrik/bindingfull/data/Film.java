@@ -1,30 +1,29 @@
 package phil.petrik.bindingfull.data;
 
 import android.os.AsyncTask;
-import android.util.Log;
+import android.text.method.HideReturnsTransformationMethod;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.BindingAdapter;
 
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 public class Film {
     private Integer id;
     private String cim;
     private String kategoria;
-    private int hossz;
-    private int ertekels;//Az api félre van gépelve, szóval...
+    private Integer hossz;
+    private Integer ertekels;//Az api félre van gépelve, szóval...
 
-    public Film(Integer id, String cim, String kategoria, int hossz, int ertekeles) {
+    public static Film emptyFilm(){
+        return new Film(null,null,null,null,null);
+    }
+
+    public Film(Integer id, String cim, String kategoria, Integer hossz, Integer ertekeles) {
         this.id = id;
         this.cim = cim;
         this.kategoria = kategoria;
@@ -44,11 +43,11 @@ public class Film {
         return kategoria;
     }
 
-    public int getHossz() {
+    public Integer getHossz() {
         return hossz;
     }
 
-    public int getErtekels() {
+    public Integer getErtekels() {
         return ertekels;
     }
 
@@ -64,8 +63,16 @@ public class Film {
         this.kategoria = kategoria;
     }
 
+    public void setHossz(String hossz) {
+        this.hossz = Integer.parseInt(hossz);
+    }
+
     public void setHossz(int hossz) {
         this.hossz = hossz;
+    }
+
+    public void setErtekels(String ertekels) {
+        this.ertekels = Integer.parseInt(ertekels);
     }
 
     public void setErtekels(int ertekels) {
@@ -79,54 +86,8 @@ public class Film {
                 + ", hossz:" + hossz + ", ertekeles:" + ertekels;
     }
 
-    public static Film getFilm(int id) throws IOException{
-        //TODO
-        final String[] content = new String[1];
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(WebDoctor.getCall("/film/"+id).second));
-                    StringBuilder boby = new StringBuilder();
-                    String line = bufferedReader.readLine();
-                    while (line != null) {
-                        boby.append(line);
-                        line = bufferedReader.readLine();
-                    }
-                    bufferedReader.close();
-                    content[0] = boby.toString();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        Gson gson = new Gson();
-        return gson.fromJson(content[0], Film.class);
+    public String toJson() {
+        return "{ \"cim\":\"" + cim + "\", \"kategoria\":\"" + kategoria
+                + "\", \"hossz\":" + hossz + ", \"ertekeles\":" + ertekels +"}";
     }
-
-    public static Film[] getFilms() throws IOException {
-        //TODO
-        final String[] content = new String[1];
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(WebDoctor.getCall("/film").second));
-                    StringBuilder boby = new StringBuilder();
-                    String line = null;
-                    line = bufferedReader.readLine();
-                    while (line != null) {
-                        boby.append(line);
-                        line = bufferedReader.readLine();
-                    }
-                    content[0] = boby.toString();
-                } catch (IOException e) {
-                    e.printStackTrace(System.err);
-                }
-            }
-        });
-        Gson gson = new Gson();
-        return gson.fromJson(content[0], Film[].class);
-    }
-
 }
