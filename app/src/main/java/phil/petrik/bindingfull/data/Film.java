@@ -102,6 +102,7 @@ public class Film extends BaseObservable {
 
     public void setHossz(int hossz) {
         this.hossz = hossz;
+        notifyPropertyChanged(BR.hosszString);
     }
 
     public void setErtekelsString(String ertekels) {
@@ -116,6 +117,7 @@ public class Film extends BaseObservable {
 
     public void setErtekels(int ertekels) {
         this.ertekels = ertekels;
+        notifyPropertyChanged(BR.ertekelsString);
     }
 
     @NonNull
