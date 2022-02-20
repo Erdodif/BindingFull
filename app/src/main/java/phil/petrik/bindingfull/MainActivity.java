@@ -19,7 +19,6 @@ import phil.petrik.bindingfull.data.RequestTask;
 import phil.petrik.bindingfull.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
-    public Film film;
     ActivityMainBinding binding;
 
     @Override
@@ -103,8 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 String content = requestTask.getResponse().getContent();
                 Log.d("Hívás / " + requestTask.getResponse().getCode(), content);
-                film = gson.fromJson(content, Film.class);
-                binding.setFilm(film);
+                binding.setFilm(gson.fromJson(content, Film.class));
             });
             requestTask.execute();
         } catch (IOException e) {
