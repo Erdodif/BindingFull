@@ -16,7 +16,9 @@ public class RetoolConnection {
 
     public RetoolConnection(String urlExtension, String method) throws IOException{
         method = method.toUpperCase(Locale.ROOT);
-        this.conn = (HttpURLConnection) (new URL( "https://retoolapi.dev/Q304E6" + urlExtension)).openConnection();
+        String finalUrl = "https://retoolapi.dev/Q304E6" + urlExtension;
+        Log.d("Új kapcsolat / "+method, finalUrl);
+        this.conn = (HttpURLConnection) (new URL( finalUrl)).openConnection();
         this.conn.setRequestMethod(method);
         this.conn.setRequestProperty("Accept", "application/json");
         if (method =="POST" || method == "PATCH"){
@@ -37,6 +39,7 @@ public class RetoolConnection {
         OutputStream os = conn.getOutputStream();
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
         bw.write(json);
+        bw.flush();
     }
 
     public Response getCall() throws IOException {

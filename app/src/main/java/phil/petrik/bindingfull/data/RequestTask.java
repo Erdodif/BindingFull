@@ -7,10 +7,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class RequestTask extends AsyncTask<Void, Void, Response> {
-    RetoolConnection conn;
-    String params;
-    Response response;
-    Runnable lastTask;
+    private RetoolConnection conn;
+    private String params;
+    private Response response;
+    private Runnable lastTask;
 
     public RequestTask(String url, String method, String paramsJson, Runnable lastTask) throws IOException {
         this.conn = new RetoolConnection(url, method);
