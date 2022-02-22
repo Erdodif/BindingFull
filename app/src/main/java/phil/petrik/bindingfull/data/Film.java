@@ -1,20 +1,13 @@
 package phil.petrik.bindingfull.data;
 
-import android.os.AsyncTask;
-import android.text.method.HideReturnsTransformationMethod;
-
 import androidx.annotation.NonNull;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
-import androidx.databinding.BindingAdapter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import com.google.gson.annotations.SerializedName;
 
 import phil.petrik.bindingfull.BR;
 
@@ -28,7 +21,8 @@ public class Film extends BaseObservable {
     @Expose(serialize = true)
     private Integer hossz;
     @Expose(serialize = true)
-    private Integer ertekels;//Az api félre van gépelve, szóval...
+    @SerializedName("ertekels") //Az api félre van gépelve, szóval...
+    private Integer ertekeles;
 
     public static Film emptyFilm(){
         return new Film(null,null,null,null,null);
@@ -39,7 +33,7 @@ public class Film extends BaseObservable {
         this.cim = cim;
         this.kategoria = kategoria;
         this.hossz = hossz;
-        this.ertekels = ertekels;
+        this.ertekeles = ertekels;
     }
 
     @Bindable
@@ -67,12 +61,12 @@ public class Film extends BaseObservable {
     }
 
     @Bindable
-    public String getErtekelsString(){
-        return ertekels==null?"":ertekels.toString();
+    public String getErtekelesString(){
+        return ertekeles ==null?"": ertekeles.toString();
     }
 
-    public Integer getErtekels() {
-        return ertekels;
+    public Integer getErtekeles() {
+        return ertekeles;
     }
 
     public void setId(Integer id) {
@@ -105,26 +99,26 @@ public class Film extends BaseObservable {
         notifyPropertyChanged(BR.hosszString);
     }
 
-    public void setErtekelsString(String ertekels) {
+    public void setErtekelesString(String ertekels) {
         try {
-            this.ertekels = Integer.parseInt(ertekels);
+            this.ertekeles = Integer.parseInt(ertekels);
         }
         catch (Exception e){
-            this.ertekels = 0;
+            this.ertekeles = 0;
         }
-        notifyPropertyChanged(BR.ertekelsString);
+        notifyPropertyChanged(BR.ertekelesString);
     }
 
-    public void setErtekels(int ertekels) {
-        this.ertekels = ertekels;
-        notifyPropertyChanged(BR.ertekelsString);
+    public void setErtekeles(int ertekeles) {
+        this.ertekeles = ertekeles;
+        notifyPropertyChanged(BR.ertekelesString);
     }
 
     @NonNull
     @Override
     public String toString() {
         return "id:" + id + ", cim:" + cim + ", kategoria:" + kategoria
-                + ", hossz:" + hossz + ", ertekeles:" + ertekels;
+                + ", hossz:" + hossz + ", ertekeles:" + ertekeles;
     }
 
     public String toJson() {

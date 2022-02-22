@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Mobil Projektek/BindingFull/app/src/main/res/drawable/ic_baseline_arrow_forward_24.xml" value="0.2655" />
+        <entry key="..\:/Mobil Projektek/BindingFull/app/src/main/res/drawable/ic_baseline_autorenew_24.xml" value="0.2655" />
+        <entry key="..\:/Mobil Projektek/BindingFull/app/src/main/res/drawable/ic_baseline_clear_24.xml" value="0.2655" />
+        <entry key="..\:/Mobil Projektek/BindingFull/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2655" />
         <entry key="..\:/Mobil Projektek/BindingFull/app/src/main/res/layout/activity_main.xml" value="0.2657407407407407" />
         <entry key="..\:/Projects/Mobil/BindingFull/app/src/main/res/layout/activity_main.xml" value="0.25" />
       </map>
