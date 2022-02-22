@@ -27,28 +27,26 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.setFilm(Film.emptyFilm());
-        binding.buttonNew.setOnClickListener(($)->{
+        binding.buttonNew.setOnClickListener($ -> {
             binding.setFilm(Film.emptyFilm());
             binding.layoutFilmEditor.setVisibility(View.VISIBLE);
             binding.layoutFilmInspector.setVisibility(View.GONE);
         });
-        binding.buttonSync.setOnClickListener(($) -> {
-            setFilms();
-        });
+        binding.buttonSync.setOnClickListener($ -> setFilms());
         binding.buttonSync.callOnClick();
-        binding.buttonClose.setOnClickListener(($) -> {
-            binding.layoutFilmInspector.setVisibility(View.GONE);
-        });
-        binding.buttonCloseEditor.setOnClickListener(($) -> {
-            binding.layoutFilmEditor.setVisibility(View.GONE);
-        });
-        binding.buttonAlter.setOnClickListener(($) -> {
+        binding.buttonClose.setOnClickListener($ ->
+            binding.layoutFilmInspector.setVisibility(View.GONE)
+        );
+        binding.buttonCloseEditor.setOnClickListener($ ->
+            binding.layoutFilmEditor.setVisibility(View.GONE)
+        );
+        binding.buttonAlter.setOnClickListener($ -> {
             binding.layoutFilmEditor.setVisibility(View.VISIBLE);
             binding.layoutFilmInspector.setVisibility(View.GONE);
         });
-        binding.buttonSend.setOnClickListener(($) -> {
-            sendFilm(binding.getFilm());
-        });
+        binding.buttonSend.setOnClickListener($ ->
+            sendFilm(binding.getFilm())
+        );
     }
 
     private void sendFilm(Film film) {
@@ -59,9 +57,9 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setTitle("Módosítás");
         alertDialog.setMessage("Elvégzi a módosításokat?");
-        alertDialog.setPositiveButton("Igen", (dialogInterface, i) -> {
-            sendFilm(film, "POST");
-        });
+        alertDialog.setPositiveButton("Igen", (dialogInterface, i) ->
+            sendFilm(film, "POST")
+        );
         alertDialog.setNegativeButton("Nem", (dialogInterface, i) -> {
             binding.layoutFilmEditor.setVisibility(View.GONE);
             binding.setFilm(Film.emptyFilm());
@@ -72,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     private void sendFilm(Film film, String method) {
         Log.d("FilmJSON", film.toJson());
         try {
-            RequestTask requestTask = new RequestTask("/film" + (film.getId() == null ? "" : "/"+film.getId().toString()), method, film.toJson());
+            RequestTask requestTask = new RequestTask("/film" + (film.getId() == null ? "" : "/" + film.getId().toString()), method, film.toJson());
             requestTask.setLastTask(() -> {
                 String toastText = "módosítás";
                 if (method.equals("POST")) {
@@ -161,10 +159,10 @@ public class MainActivity extends AppCompatActivity {
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
         );
         buttonFilm.setLayoutParams(lp);
-        buttonFilm.setOnClickListener(($) -> {
-            setFilm(film.getId());
-        });
-        buttonFilm.setOnLongClickListener(($) -> {
+        buttonFilm.setOnClickListener($ ->
+            setFilm(film.getId())
+        );
+        buttonFilm.setOnLongClickListener($ -> {
             deleteFilm(film.getId());
             return true;
         });
