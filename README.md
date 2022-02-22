@@ -82,12 +82,12 @@ Az alap megjelenésben csak a vezérlő gombok, és egy ScrollView látható, ha
 ### ViewBinding inciálása
 
 | Scope    | Tartalom                                                      |
-| :------- | ------------------------------------------------------------- |
-| class    | *Osztályhoz tartozó változók törlése                          |
+| :--------- | --------------------------------------------------------------- |
+| class    | *Osztályhoz tartozó változók törlése                    |
 | class    | `ActivityMainBinding binding;`                                |
 | onCreate | `binding = ActivityMainBinding.inflate(getLayoutInflater());` |
-| class    | *Minden hivatkozás javítása (+`binding.`)                     |
-| init     | *Törlés                                                       |
+| class    | *Minden hivatkozás javítása (+`binding.`)                  |
+| init     | *Törlés                                                     |
 
 ### Nézegető elkészítése ViewBinding-al
 
@@ -149,8 +149,8 @@ android:text="@{film.cim}"
 ### Nézegető átalakítása DataBinding-ra
 
 | Scope   | Tartalom                  |
-| ------- | ------------------------- |
-| setFilm | *`setText()`-ek törlése   |
+| --------- | --------------------------- |
+| setFilm | *`setText()`-ek törlése |
 | setFilm | `binding.setFilm(film);`  |
 
 ### Filmek listájának feltöltése
@@ -170,3 +170,42 @@ requestTask.execute();
 ```
 
 Teszteljük a metódus működését!
+
+## Két oldalú DataBinding beállítása
+
+A két oldalú dataBinding-hoz másik szintaktikai elem kell az `xml` text attribútumának, és a Film osztályt a BaseObservable osztályból kell leszármaztatni.
+
+### Databinding szintaktika egy editText-en
+
+```xml
+<Edittext
+...
+android:text="@={film.cim}"
+.../>
+```
+
+### Film osztály módosítása
+
+A BaseObservable egy olyan objektum, aminek minden attribútum változása egy notification-t dob, ami az adott változót figyelő összes elemet frissít az új értékre.
+
+> Ennek a beállításához minden getternek a `@Bindable` annotációt kell adni, valamint minden settert a `notifyPropertyChanged()` függvényhívással kell kiegészíteni, amibe a `BR` (BindingResource) osztály adott tagját kell megadni.
+>
+> Igen, ahogy a `ViewBinding` az `xml`-ről, úgy a `DataBinding` az osztályról generál **binding** property-t.
+
+#### Példa a setCim() metódus átalakításáról
+
+```java
+public void setId(Integer id) {
+    this.id = id;
+    notifyPropertyChanged(BR.id);
+}
+```
+
+#### Példa a getCim() metódus kiegészítéséhez
+
+```java
+@Bindable
+public Integer getId() {
+    return id;
+}
+```
