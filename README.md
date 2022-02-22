@@ -53,6 +53,8 @@ Itt láthattok egy kis statisztikát az előző technológiák működéséről.
 
 Ahogy látható, a `ViewBinding`-nak továbbra sincs kihatása a projekt buildelési idejébe, viszont a `DataBinding`-nak van, azt akkor érdemes importálni, ha tényleg használjuk, minden esetre a futási időre ennek sincs kihatása, tehát ez csak a fejlesztési szakaszban lehet kellemetlen. A Binding osztályok előtt volt még a `butterknife` és a `kotlin syntetics` osztály is, sajnos ezek nem voltak minden esetben **null-safe**-ek, a google azokat már nem fejleszti.
 
+---
+
 ## Gradle
 
 Remélem mostanra mindenkinek sikerült forkolni a repót, lépjünk is be az app gradle-be, és adjuk hozzá a view binding-ot a projekthez.
@@ -66,15 +68,105 @@ Ha sikerült, akkor megvagyunk a setuppal, már csak az `onCreate()` metódusban
 Lépjünk be a `MainActivity`-be, láthatjuk, hogy van már egy előre elkészített keret, most órán életre is keltjük ezt. A design három nézetet különít meg.
 
 Az alap megjelenésben csak a vezérlő gombok, és egy ScrollView látható, ha egy filmre koppintunk, megjelenik egy nézegető a vezérlőbombok alatt, ha pedig a szerkesztő vagy új gombra nyomunk, egy beviteli panel jelenik meg a nézegető helyén.
+
+### Design
+
 | Alap megjelenés                                      | Nézegető nézet                                      | Szerkesztő / Készítő nézet                        |
 | ------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
 | ![Alap megjelenés](assets/20220222_130627_image.png) | ![Nézegető nézet](assets/20220222_130818_image.png) | ![Készítő nézet](assets/20220222_131018_image.png) |
 
-Változtatások
-| Scope    | tartalom                                                      |
-| ---------- | --------------------------------------------------------------- |
-| class    | *Törlés                                                     |
+---
+
+## Változtatások
+
+### ViewBinding inciálása
+
+| Scope    | Tartalom                                                      |
+| :------- | ------------------------------------------------------------- |
+| class    | *Osztályhoz tartozó változók törlése                          |
 | class    | `ActivityMainBinding binding;`                                |
 | onCreate | `binding = ActivityMainBinding.inflate(getLayoutInflater());` |
-| class    | *Minden hivatkozás javítása (+`binding.`)                  |
-| init     | *Törlés                                                     |
+| class    | *Minden hivatkozás javítása (+`binding.`)                     |
+| init     | *Törlés                                                       |
+
+### Nézegető elkészítése ViewBinding-al
+
+| Scope   | Tartalom                                                                                                        |
+| --------- | ----------------------------------------------------------------------------------------------------------------- |
+| setFilm | `binding.layoutFilmInspector.setVisibility(View.VISIBLE);` `binding.layoutFilmEditor.setVisibility(View.GONE);` |
+| setFilm | `RequestTask requestTask = new RequestTask("/film/" + id, "GET");`                                              |
+| setFilm | *try/catch az IOException miatt (egyszerű`printStackTrace();` a catch ágba)                                   |
+| setFilm | `requestTask.setLastTask(lambda);`                                                                              |
+| setFilm | `requestTask.execute();`                                                                                        |
+
+#### Lambda kifejezés a lastTask-ba
+
+```java
+() -> {
+   Gson gson = new Gson();
+   String content = requestTask.getResponse().getContent();
+   Film film = gson.fromJson(content, Film.class);
+   binding.textViewFilmCim.setText(film.getCim());
+   binding.textViewFilmKategoria.setText(film.getKategoria());
+   binding.textViewFilmHossz.setText(film.getHossz());
+   binding.textViewFilmErtekeles.setText(film.getErtekels());
+ });
+```
+
+Teszteljük az appot egy pélta filmmel!
+
+### Layout átalakítása Databinding-ra
+
+```xml
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="film"
+            type="phil.petrik.bindingfull.data.Film" />
+    </data>
+    ...
+</layout>
+```
+
+> Az eredeti `Linearlayout` kerüljön a `layout`-ba.
+> Az `xmlns` attribútumok kerüljenek át a `layout`-ba, mert ezek a paraméterek mindíg a **legkülső** elemre kell, hogy vonatkozzanak
+
+Ennek megfelelően alakítsuk át a textView-kat!
+
+#### Databinding szintaktika egy textView-n
+
+```xml
+<TextView
+...
+android:text="@{film.cim}"
+.../>
+```
+
+> A binding osztály automatikusan a gettereket keresi meg, és a `binding.setFilm();` metódus meghívásakor módosítja a tartalmat (egy irányúan!)
+
+### Nézegető átalakítása DataBinding-ra
+
+| Scope   | Tartalom                  |
+| ------- | ------------------------- |
+| setFilm | *`setText()`-ek törlése   |
+| setFilm | `binding.setFilm(film);`  |
+
+### Filmek listájának feltöltése
+
+```java
+RequestTask requestTask = new RequestTask("/film", "GET");
+requestTask.setLastTask(() -> {
+   binding.layoutFilms.removeAllViews();
+   Gson gson = new Gson();
+   String content = requestTask.getResponse().getContent();
+   Film[] filmek = (gson.fromJson(content, Film[].class));
+   for (Film film : filmek) {
+       binding.layoutFilms.addView(createFilmButton(film));
+   }
+});
+requestTask.execute();
+```
+
+Teszteljük a metódus működését!
